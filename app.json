@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Admin Tournament",
+    "slug": "admin-tournament",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tournament.admin"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.tournament.admin"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Admin Tournament to access your photos.",
+          "cameraPermission": "Allow Admin Tournament to access your camera."
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "expoRouter": {
+        "root": "./app"
+      }
+    },
+    "scheme": "admintourn",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark"
+  }
+}
