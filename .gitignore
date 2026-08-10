@@ -2,8 +2,6 @@
 # .gitignore - Files NOT to upload to GitHub
 # ============================================
 
-# Rename this file to .gitignore (remove .txt)
-
 # Environment variables (NEVER upload to GitHub)
 .env
 .env.local
@@ -11,8 +9,6 @@
 
 # Dependencies
 node_modules/
-yarn.lock
-package-lock.json
 
 # Build outputs
 dist/
