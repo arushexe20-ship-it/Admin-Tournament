@@ -39,6 +39,9 @@
       },
       "expoRouter": {
         "root": "./app"
+      },
+      "eas": {
+        "projectId": "28cdf549-56fd-491c-9b11-9688aa281270"
       }
     }
   }
