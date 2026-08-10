@@ -1,0 +1,31 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Code Checkout
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 3. Setup Expo CLI and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 4. Auto Generate Lockfile and Install Dependencies
+        run: npm install
+
+      - name: 5. Start EAS Android APK Build
+        run: eas build --platform android --profile preview --non-interactive
