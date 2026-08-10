@@ -1,0 +1,65 @@
+name: Expo Diagnostic & EAS Cloud Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  diagnostic-and-build:
+    name: Expo Health Check & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Repo se latest code pull karein
+      - name: 📁 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Node.js 18 environment set up karein
+      - name: 🟢 2. Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      # Step 3: Expo aur EAS CLI configure karein
+      - name: 🚀 3. Setup Expo & EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # Step 4: Dependencies clean install karein
+      - name: 📦 4. Install Dependencies
+        run: npm install
+
+      # Step 5: Check Expo SDK & Dependency Health
+      - name: 🩺 5. Run Expo Doctor Check
+        run: |
+          echo "Checking Expo SDK and package versions..."
+          npx expo-doctor
+        continue-on-error: true # Warning dikhayega par workflow ko block nahi karega
+
+      # Step 6: Native Android Prebuild Generation Test
+      # (Pakar lega: Missing icons, babel.config.js errors, invalid plugins)
+      - name: 🛠️ 6. Test Android Native Prebuild
+        run: |
+          echo "Testing Android native configuration..."
+          npx expo prebuild --platform android --no-install
+
+      # Step 7: Verify EAS Configuration
+      # (Pakar lega: projectId mismatch, slug mismatch, owner mismatch)
+      - name: 🔍 7. Verify EAS App Config
+        run: |
+          echo "Verifying app.json and EAS project setup..."
+          npx eas-cli config:view
+
+      # Step 8: Trigger EAS Build (Jab baaki saare checks pass ho jayein)
+      - name: 🏗️ 8. Start EAS Android Preview Build (APK)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          eas build --platform android --profile preview --non-interactive
