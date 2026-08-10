@@ -2,6 +2,7 @@
   "expo": {
     "name": "Admin Tournament",
     "slug": "admin-tournament",
+    "owner": "arush454s-team",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "admintourn",
